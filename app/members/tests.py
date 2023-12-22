@@ -1,19 +1,19 @@
-# from django.test import TestCase
-
-# # Create your tests here.
-# class Member(models.Model):
-#   Topic = models.CharField(max_length=150)
-#   Description = models.CharField(max_length=300)
-#   by = models.CharField(max_length=150)
-#   date = models.date()
-
-
 # tests.py
 
 from django.test import TestCase
+from .models import Member
 
-class Member(models.Model):
-    Topic = models.CharField(max_length=150)
-    Description = models.CharField(max_length=300)
-    by = models.CharField(max_length=150)
-    date = models.DateField()
+class MemberModelTestCase(TestCase):
+
+    def test_member_creation(self):
+        member = Member.objects.create(
+            Topic="Test Topic",
+            Description="Test Description",
+            by="Test Author",
+            date="2023-01-01"  # Make sure to provide a valid date format
+        )
+
+        self.assertEqual(member.Topic, "Test Topic")
+        self.assertEqual(member.Description, "Test Description")
+        self.assertEqual(member.by, "Test Author")
+        self.assertEqual(member.date, "2023-01-01")  # Update with the actual expected date format

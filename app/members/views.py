@@ -23,7 +23,12 @@ class ReactView(APIView):
         return Response(webinar_details) 
   
     def post(self, request): 
-        serializer = ReactSerializer(data=request.data) 
+        # Check if the 'Topic' field is present to determine the data type
+        is_webinar_data = 'Topic' in request.data
+
+        # Create a new serializer instance based on the data type
+        serializer = ReactSerializer(data=request.data, many=is_webinar_data)
+
         if serializer.is_valid(raise_exception=True): 
             serializer.save() 
             return Response(serializer.data)
