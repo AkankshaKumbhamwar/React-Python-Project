@@ -14,12 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# app/urls.py
+
 from django.contrib import admin
-from django.urls import include, path 
-from members.views import *
+from django.urls import include, path
+from members.views import ReactView  # Make sure this import is correct
+
+#for image
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', include('members.urls')),
     path('admin/', admin.site.urls),
     path('wel/', ReactView.as_view(), name="something"),
 ]
+#for image 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

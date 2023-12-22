@@ -2,25 +2,25 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render 
 from rest_framework.views import APIView 
-from .models import *
+from .models import Member
 from rest_framework.response import Response 
-from .serializer import *
-
+from .serializer import ReactSerializer
 
 class ReactView(APIView): 
-    serializer_class = ReactSerializer 
+    serializer_class = ReactSerializer
 
     def get(self, request): 
-        webinarDetails = [
+        webinar_details = [
             {
-                "Topic": webinarDetail.Topic,
-                "Description": webinarDetail.Description,
-                "By": webinarDetail.By,
-                "Date": webinarDetail.Date
+                "Topic": webinar_detail.Topic,
+                "Description": webinar_detail.Description,
+                "By": webinar_detail.By,
+                "Date": webinar_detail.Date,
+                "Image": request.build_absolute_uri(webinar_detail.Image.url) if webinar_detail.Image else None
             }
-            for webinarDetail in React.objects.all()
+            for webinar_detail in Member.objects.all()
         ] 
-        return Response(webinarDetails) 
+        return Response(webinar_details) 
   
     def post(self, request): 
         serializer = ReactSerializer(data=request.data) 
